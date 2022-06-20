@@ -30,8 +30,15 @@ class Form {
     this.playButton.mousePressed(
       ()=>{
         this.playButton.hide();
-    this.input.hide();
-    this.greeting.html(`Olá ${this.input.value()}, espere o outro jogador entrar`);
+        this.input.hide();
+        this.greeting.html(`Olá ${this.input.value()}, espere o outro jogador entrar`);
+      
+        playerCount += 1; // aumenta a contagem dos jogadores
+        player.name = this.input.value(); // pega a informaçao do nome do jogador e manda para o player
+        player.index = playerCount; // cria indice do player
+        player.addPlayer(); // criar o jogador
+        player.updateCount(playerCount);  // atualiza contagem de jogadores no banco de dados
+        
       }
     )
   }
