@@ -25,6 +25,11 @@ canvas {
   text-align: center;
 }
 
+.gameTitleAfterEffect{
+  width: 50%;
+ 
+}
+
 .customInput {
   width:200px;
   height:30px;
