@@ -7,6 +7,12 @@ class Game {
     });
   } 
 
+  update(state) { // atualiza sempre no banco de dados(escreve)
+    database.ref("/").update({
+      gameState: state
+    });
+  }
+
   start() {
     form = new Form();
     form.display();
@@ -20,6 +26,8 @@ class Game {
     car2 = createSprite(width /2 +100, height -100)
     car2.addImage(car2_img)
     car2.scale = 0.07
+
+    cars =[car1, car2]
   }
 
   handleElements() {
@@ -28,15 +36,12 @@ class Game {
     form.titleImg.class("gameTitleAfterEffect"); // novo estilo do titulo
   }
 
-  update(state) { // atualiza sempre no banco de dados(escreve)
-    database.ref("/").update({
-      gameState: state
-    });
-  }
-
   play(){
    this.handleElements()
-   if(playerCount === 2){
+
+   Player.getPlayersInfo(); // o temto todo atualizando a informação dos players 
+  if (allPlayers !== undefined) {  
+   //if(playerCount === 2){
     image (track, 0, -height *5, width, height *6)
     drawSprites()
    }

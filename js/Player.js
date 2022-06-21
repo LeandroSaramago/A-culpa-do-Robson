@@ -34,15 +34,22 @@ class Player {
       playerCount: count
     });
   }
+
+  getDistance() { //pega no banco de dados! 
+    var playerDistanceRef = database.ref("players/player" + this.index);
+    playerDistanceRef.on("value", data => {
+      var data = data.val();
+      this.positionX = data.positionX;
+      this.positionY = data.positionY;
+    });
+  }
  
   static getPlayersInfo() {
     var playerInfoRef = database.ref("players");
     playerInfoRef.on("value", data => {
       allPlayers = data.val();
-      ///console.log(allPlayers)
+      //console.log(allPlayers)
     });
    
   }
-
-
 }
