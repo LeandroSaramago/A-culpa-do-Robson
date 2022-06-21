@@ -43,9 +43,27 @@ class Game {
   if (allPlayers !== undefined) {  
    //if(playerCount === 2){
     image (track, 0, -height *5, width, height *6)
+    var index = 0
+    for(var plr in allPlayers){
+    index++
+    var x = allPlayers[plr].positionX
+    var y = height - allPlayers[plr].positionY
+    cars[index-1].position.x = x
+    cars[index-1].position.y = y
+    if(index === player.index){
+      camera.position.y = cars[index-1].position.y
+    }
+    }
+    this.Setinha()
     drawSprites()
    }
   }
-
+  
+  Setinha(){
+    if(keyIsDown(UP_ARROW)){
+      player.positionY += 10
+      player.update()
+    }
+  }
 }
  

@@ -35,6 +35,13 @@ class Player {
     });
   }
 
+  update(){ 
+    database.ref("players/player"+this.index).update({
+      positionX : this.positionX,
+      positionY : this.positionY
+    });
+  }
+
   getDistance() { //pega no banco de dados! 
     var playerDistanceRef = database.ref("players/player" + this.index);
     playerDistanceRef.on("value", data => {
