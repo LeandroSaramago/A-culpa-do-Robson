@@ -38,7 +38,7 @@ class Form {
         player.index = playerCount; // cria indice do player
         player.addPlayer(); // criar o jogador
         player.updateCount(playerCount);  // atualiza contagem de jogadores no banco de dados
-        
+        player.getDistance();
       }
     )
   }
