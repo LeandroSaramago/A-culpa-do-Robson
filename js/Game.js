@@ -88,8 +88,22 @@ class Game {
 
     this.Setinha();
     this.showLeaderboard();
+    this.reset();
     drawSprites();
    }
+  }
+
+  reset(){
+    this.resetButton.mousePressed(
+      ()=>{
+        database.ref("/").set({
+          playerCount: 0,
+          gameState: 0,
+          players: {}
+        })
+        window.location.reload()
+      }
+    )
   }
 
   showLeaderboard() {
@@ -139,6 +153,14 @@ class Game {
   Setinha(){
     if(keyIsDown(UP_ARROW)){
       player.positionY += 10;
+      player.update();
+    }
+    if(keyIsDown(LEFT_ARROW)){
+      player.positionX -= 5;
+      player.update();
+    }
+    if(keyIsDown(RIGHT_ARROW)){
+      player.positionX += 5;
       player.update();
     }
   }
