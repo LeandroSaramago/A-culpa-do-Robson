@@ -4,6 +4,8 @@ class Player {
     this.index = null;
     this.positionX = 0;
     this.positionY = 0;
+    this.rank = 0; // ranking 
+    this.score = 0; // pontuação
   }
 
   addPlayer() {
@@ -18,7 +20,9 @@ class Player {
     database.ref(playerIndex).set({ // atualiza no banco de dados
       name: this.name,
       positionX: this.positionX,
-      positionY: this.positionY
+      positionY: this.positionY,
+      rank: this.rank,                       
+      score: this.score, 
     });
   }
 
@@ -38,7 +42,9 @@ class Player {
   update(){ 
     database.ref("players/player"+this.index).update({
       positionX : this.positionX,
-      positionY : this.positionY
+      positionY : this.positionY,
+      rank: this.rank,                       
+      score: this.score,
     });
   }
 
