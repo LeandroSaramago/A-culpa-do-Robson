@@ -38,38 +38,48 @@ class Game {
 
     cars =[car1, car2];
 
-     // var obstaclesPositions = [
-    //   { x: width / 2 + 250, y: height - 800, image: obstacle2Image },
-    //   { x: width / 2 - 150, y: height - 1300, image: obstacle1Image },
-    //   { x: width / 2 + 250, y: height - 1800, image: obstacle1Image },
-    //   { x: width / 2 - 180, y: height - 2300, image: obstacle2Image },
-    //   { x: width / 2, y: height - 2800, image: obstacle2Image },
-    //   { x: width / 2 - 180, y: height - 3300, image: obstacle1Image },
-    //   { x: width / 2 + 180, y: height - 3300, image: obstacle2Image },
-    //   { x: width / 2 + 250, y: height - 3800, image: obstacle2Image },
-    //   { x: width / 2 - 150, y: height - 4300, image: obstacle1Image },
-    //   { x: width / 2 + 250, y: height - 4800, image: obstacle2Image },
-    //   { x: width / 2, y: height - 5300, image: obstacle1Image },
-    //   { x: width / 2 - 180, y: height - 5500, image: obstacle2Image }
-    // ];
+     var obstaclesPositions = [
+      { x: width / 2 + 250, y: height - 800, image: obstacle2Image },
+      { x: width / 2 - 150, y: height - 1300, image: obstacle1Image },
+      { x: width / 2 + 250, y: height - 1800, image: obstacle1Image },
+      { x: width / 2 - 180, y: height - 2300, image: obstacle2Image },
+      { x: width / 2, y: height - 2800, image: obstacle2Image },
+      { x: width / 2 - 180, y: height - 3300, image: obstacle1Image },
+      { x: width / 2 + 180, y: height - 3300, image: obstacle2Image },
+      { x: width / 2 + 250, y: height - 3800, image: obstacle2Image },
+      { x: width / 2 - 150, y: height - 4300, image: obstacle1Image },
+      { x: width / 2 + 250, y: height - 4800, image: obstacle2Image },
+      { x: width / 2, y: height - 5300, image: obstacle1Image },
+      { x: width / 2 - 180, y: height - 5500, image: obstacle2Image }
+    ];
 
     fuels = new Group();
     powerCoins  = new Group();
+    obstacles = new Group();
     
     // Adicionar sprite de combustível no jogo
     this.addSprites(fuels, 4, fuelImage, 0.02);
 
     // Adicionar sprite de moeda no jogo
     this.addSprites(powerCoins, 18, powerCoinImage, 0.09);
+
+    this.addSprites(obstacles, obstaclesPositions.length, obstacle1Image, 0.04, obstaclesPositions)
   }
 
   addSprites(spriteGroup, numberOfSprites, spriteImage, scale, POSIcao=[]){
     for (var i = 0; i< numberOfSprites; i++ ){
      // fazer uma moeda ou combustível
       var x, y;
-      x = random(width/2+150, width/2-150);
-      y = random(-height * 4.5, height-400)
+      
 
+      if(POSIcao.length>0){
+        x = POSIcao[i].x   
+        y = POSIcao[i].y  
+        spriteImage = POSIcao[i].image 
+      }else{
+        x = random(width/2+150, width/2-150);
+        y = random(-height * 4.5, height-400)
+      }
       var sprite = createSprite(x, y);
       sprite.addImage("sprite", spriteImage);
       sprite.scale = scale;
@@ -122,11 +132,13 @@ class Game {
         ellipse(x, y, 60, 60);
 
         camera.position.y = cars[index-1].position.y;
+        this.pegaasgasolina(index);
+        this.pegaasmoeda(index);
       }
     }
 
     this.Setinha();
-    this.showLeaderboard();
+    //this.showLeaderboard();
     this.reset();
     drawSprites();
    }
@@ -147,7 +159,9 @@ class Game {
 
   showLeaderboard() {
     var leader1, leader2;
-    var players = Object.values(allPlayers);
+    //var players = Object.values(allPlayers);
+    Player.getPlayersInfo()
+    var players = allPlayers
     if (
       (players[0].rank === 0 && players[1].rank === 0) ||
       players[0].rank === 1
@@ -201,6 +215,21 @@ class Game {
       player.positionX += 5;
       player.update();
     }
+  }
+
+  pegaasmoeda(index){
+    cars[index-1].overlap(powerCoins, function(coletor, coletado){
+  player.score += 1
+  player.update()
+  coletado.remove()
+    })
+  }
+
+  pegaasgasolina(index){
+    cars[index-1].overlap(fuels, function(coletor, coletado){
+  player.fuel = 185
+  coletado.remove()
+    })
   }
 }
  

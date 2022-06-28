@@ -6,6 +6,7 @@ class Player {
     this.positionY = 0;
     this.rank = 0; // ranking 
     this.score = 0; // pontuação
+    this.fuel = 185
   }
 
   addPlayer() {

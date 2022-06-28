@@ -7,7 +7,7 @@ var playerCount;
 var allPlayers, car1, car2;
 var cars = [];
 var fuelImage, powerCoinImage, obstacle1Image,obstacle2Image;
-var fuels,powerCoins;
+var fuels,powerCoins,obstacles
 
 function preload() {
   backgroundImage = loadImage("assets/planodefundo.png");
