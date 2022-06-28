@@ -28,15 +28,54 @@ class Game {
 
     player = new Player();
     playerCount = player.getCount(); // identificar quantos jogadores temos
-    car1 = createSprite(width /2 -100, height -100)
-    car1.addImage(car1_img)
-    car1.scale = 0.07
+    car1 = createSprite(width /2 -100, height -100);
+    car1.addImage(car1_img);
+    car1.scale = 0.07;
 
-    car2 = createSprite(width /2 +100, height -100)
-    car2.addImage(car2_img)
-    car2.scale = 0.07
+    car2 = createSprite(width /2 +100, height -100);
+    car2.addImage(car2_img);
+    car2.scale = 0.07;
 
-    cars =[car1, car2]
+    cars =[car1, car2];
+
+     // var obstaclesPositions = [
+    //   { x: width / 2 + 250, y: height - 800, image: obstacle2Image },
+    //   { x: width / 2 - 150, y: height - 1300, image: obstacle1Image },
+    //   { x: width / 2 + 250, y: height - 1800, image: obstacle1Image },
+    //   { x: width / 2 - 180, y: height - 2300, image: obstacle2Image },
+    //   { x: width / 2, y: height - 2800, image: obstacle2Image },
+    //   { x: width / 2 - 180, y: height - 3300, image: obstacle1Image },
+    //   { x: width / 2 + 180, y: height - 3300, image: obstacle2Image },
+    //   { x: width / 2 + 250, y: height - 3800, image: obstacle2Image },
+    //   { x: width / 2 - 150, y: height - 4300, image: obstacle1Image },
+    //   { x: width / 2 + 250, y: height - 4800, image: obstacle2Image },
+    //   { x: width / 2, y: height - 5300, image: obstacle1Image },
+    //   { x: width / 2 - 180, y: height - 5500, image: obstacle2Image }
+    // ];
+
+    fuels = new Group();
+    powerCoins  = new Group();
+    
+    // Adicionar sprite de combustível no jogo
+    this.addSprites(fuels, 4, fuelImage, 0.02);
+
+    // Adicionar sprite de moeda no jogo
+    this.addSprites(powerCoins, 18, powerCoinImage, 0.09);
+  }
+
+  addSprites(spriteGroup, numberOfSprites, spriteImage, scale, POSIcao=[]){
+    for (var i = 0; i< numberOfSprites; i++ ){
+     // fazer uma moeda ou combustível
+      var x, y;
+      x = random(width/2+150, width/2-150);
+      y = random(-height * 4.5, height-400)
+
+      var sprite = createSprite(x, y);
+      sprite.addImage("sprite", spriteImage);
+      sprite.scale = scale;
+      spriteGroup.add(sprite);
+
+    }
   }
 
   handleElements() {
@@ -148,7 +187,6 @@ class Game {
     this.leader1.html(leader1);
     this.leader2.html(leader2);
   }
-
   
   Setinha(){
     if(keyIsDown(UP_ARROW)){
