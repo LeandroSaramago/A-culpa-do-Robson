@@ -7,6 +7,8 @@ class Game {
 
     this.leader1 = createElement("h2"); // condutor 1
     this.leader2 = createElement("h2"); // condutor 2
+
+    this.moving = false
   }
 
   getState() {  // 1º
@@ -155,8 +157,8 @@ class Game {
     this.Setinha();
     this.reset();
     drawSprites();
-    this.showLife()
-    this.showFuelBar()
+    this.showLife();
+    this.showFuelBar();
    }
   }
 
@@ -182,7 +184,16 @@ class Game {
     pop();
   }
 
-  showFuelBar(){}
+  showFuelBar(){
+    push();
+    image(fuelImage, width / 2 - 130, height - player.positionY - 250, 20, 20);
+    fill("white");
+    rect(width / 2 - 100, height - player.positionY - 250, 185, 20);
+    fill("#ffc400");
+    rect(width / 2 - 100, height - player.positionY - 250, player.fuel, 20);
+    noStroke();
+    pop();
+  }
 
 
   reset(){
@@ -248,6 +259,7 @@ class Game {
     if(keyIsDown(UP_ARROW)){
       player.positionY += 10;
       player.update();
+      this.moving = true
     }
     if(keyIsDown(LEFT_ARROW)){
       player.positionX -= 5;
@@ -272,9 +284,24 @@ class Game {
   player.fuel = 185
   coletado.remove()
     })
+    if(player.fuel > 0 && this.moving){
+      player.fuel -= 0.3 
+    }
+    if(player.fuel <= 0){
+      gameState = 2
+      this.gameOver()
+    }
   }
 
   gameOver(){
+    swal({
+      title: `GameOver`,
+      text: "Mission Failed! Better luck next time",
+      imageUrl:
+        "https://cdn.shopify.com/s/files/1/1061/1924/products/Thumbs_Down_Sign_Emoji_Icon_ios10_grande.png",
+      imageSize: "100x100",
+      confirmButtonText: "Ok"
+    });
     // imageUrl:
     // "https://cdn.shopify.com/s/files/1/1061/1924/products/Thumbs_Down_Sign_Emoji_Icon_ios10_grande.png",
   
