@@ -115,6 +115,8 @@ class Game {
    this.handleElements();
 
    Player.getPlayersInfo(); // o temto todo atualizando a informação dos players 
+   player.getCarsAtEnd();
+
    if (allPlayers !== undefined) {  
     image (track, 0, -height *5, width, height *6);
 
@@ -137,12 +139,51 @@ class Game {
       }
     }
 
+    //Linha de chegada
+
+    const finishLine = height*6-100;
+
+    if (player.positionY>finishLine){
+      gameState = 2;
+      player.rank += 1;
+      Player.updateCarsAtEnd(player.rank);
+      player.update(); 
+      this.showRank()
+    }
+
+    this.showLeaderboard() 
     this.Setinha();
-    //this.showLeaderboard();
     this.reset();
     drawSprites();
+    this.showLife()
+    this.showFuelBar()
    }
   }
+
+  showRank() {
+    swal({
+      title: `Incrível!${"\n"}Rank${"\n"}${player.rank}`,
+      text: "Você alcançou a linha de chegada com sucesso!",
+      imageUrl:
+        "https://raw.githubusercontent.com/vishalgaddam873/p5-multiplayer-car-race-game/master/assets/cup.png",
+      imageSize: "100x100",
+      confirmButtonText: "Ok"
+    });
+  }
+
+  showLife() {
+    push();
+    image(lifeImage, width / 2 - 130, height - player.positionY - 300, 20, 20);
+    fill("white");
+    rect(width / 2 - 100, height - player.positionY - 300, 185, 20);
+    fill("#f50057");
+    rect(width / 2 - 100, height - player.positionY - 300, player.life, 20);
+    noStroke();
+    pop();
+  }
+
+  showFuelBar(){}
+
 
   reset(){
     this.resetButton.mousePressed(
@@ -150,7 +191,8 @@ class Game {
         database.ref("/").set({
           playerCount: 0,
           gameState: 0,
-          players: {}
+          players: {},
+          carsAtEnd:0
         })
         window.location.reload()
       }
@@ -160,8 +202,8 @@ class Game {
   showLeaderboard() {
     var leader1, leader2;
     //var players = Object.values(allPlayers);
-    Player.getPlayersInfo()
-    var players = allPlayers
+    //Player.getPlayersInfo()
+    var players = Object.values(allPlayers);
     if (
       (players[0].rank === 0 && players[1].rank === 0) ||
       players[0].rank === 1
@@ -230,6 +272,12 @@ class Game {
   player.fuel = 185
   coletado.remove()
     })
+  }
+
+  gameOver(){
+    // imageUrl:
+    // "https://cdn.shopify.com/s/files/1/1061/1924/products/Thumbs_Down_Sign_Emoji_Icon_ios10_grande.png",
+  
   }
 }
  
