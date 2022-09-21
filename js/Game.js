@@ -9,6 +9,7 @@ class Game {
     this.leader2 = createElement("h2"); // condutor 2
 
     this.moving = false
+    this.left = false
   }
 
   getState() {  // 1º
@@ -138,6 +139,8 @@ class Game {
         camera.position.y = cars[index-1].position.y;
         this.pegaasgasolina(index);
         this.pegaasmoeda(index);
+        this.Explosao(index);
+        this.Carrin(index);
       }
     }
 
@@ -162,7 +165,58 @@ class Game {
    }
   }
 
-  showRank() {
+  Carrin(index){
+  if(index === 1){
+  if(cars[index-1].collide(cars[1])){
+  if(player.life > 0){
+  player.life-=185/4
+  }
+  if(this.left){
+    player.positionX+= 100
+  }else{
+    player.positionX-=100
+  }
+  if(player.life <= 0){
+    gameState = 2
+    this.gameOver()
+  }
+  }
+  }
+  if(index === 2){
+    if(cars[index-1].collide(cars[0])){
+    if(player.life > 0){
+    player.life-=185/4
+    }
+    if(this.left){
+    player.positionX+= 100
+    }else{
+    player.positionX-=100
+    }
+  if(player.life <= 0){
+  gameState = 2
+  this.gameOver()
+  }
+  }
+  }
+  }
+
+  Explosao(index){
+  if(cars[index-1].collide(obstacles)){
+  if(player.life > 0){
+    player.life-=185/4
+  }
+  if(this.left){
+    player.positionX+= 100
+  }else{
+    player.positionX-=100
+  }
+  if(player.life <= 0){
+    gameState = 2
+    this.gameOver()
+  }
+  }
+  }
+  showRank(){
     swal({
       title: `Incrível!${"\n"}Rank${"\n"}${player.rank}`,
       text: "Você alcançou a linha de chegada com sucesso!",
@@ -264,10 +318,12 @@ class Game {
     if(keyIsDown(LEFT_ARROW)){
       player.positionX -= 5;
       player.update();
+      this.left = true
     }
     if(keyIsDown(RIGHT_ARROW)){
       player.positionX += 5;
       player.update();
+      this.left = false
     }
   }
 
